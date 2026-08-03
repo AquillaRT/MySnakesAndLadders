@@ -2,14 +2,36 @@ Class {
 	#name : 'SLTile',
 	#superclass : 'Object',
 	#instVars : [
-		'position'
+		'position',
+		'players'
 	],
 	#category : 'ART-SnakesAndLadders',
 	#package : 'ART-SnakesAndLadders'
 }
 
+{ #category : 'adding' }
+SLTile >> addPlayer: aSLPlayer [ 
+
+	players add: aSLPlayer 
+]
+
+{ #category : 'initialization' }
+SLTile >> initialize [
+
+	super initialize.
+	players := OrderedCollection new.
+	position := 0
+]
+
 { #category : 'accessing' }
-SLTile >> position: anInteger [ 
+SLTile >> players [
+
+	^ players
+]
+
+{ #category : 'accessing' }
+SLTile >> position: anInteger [
+
 	position := anInteger
 ]
 
