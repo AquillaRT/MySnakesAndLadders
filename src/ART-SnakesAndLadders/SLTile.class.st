@@ -15,6 +15,12 @@ SLTile >> addPlayer: aSLPlayer [
 	players add: aSLPlayer 
 ]
 
+{ #category : 'testing' }
+SLTile >> includesPlayer: aPlayer [
+
+	^ players includes: aPlayer
+]
+
 { #category : 'initialization' }
 SLTile >> initialize [
 
@@ -30,6 +36,12 @@ SLTile >> players [
 ]
 
 { #category : 'accessing' }
+SLTile >> position [
+
+	^ position
+]
+
+{ #category : 'accessing' }
 SLTile >> position: anInteger [
 
 	position := anInteger
@@ -37,8 +49,10 @@ SLTile >> position: anInteger [
 
 { #category : 'printing' }
 SLTile >> printOn: aStream [
+	"protocol: 'printing'"
 
 	aStream << $[.
 	position printOn: aStream.
+	players do: [ :each | each printOn: aStream ].
 	aStream << $]
 ]

@@ -9,9 +9,10 @@ Class {
 }
 
 { #category : 'accessing' }
-SLGame >> addPlayer: aSLPlayer [ 
+SLGame >> addPlayer: aPlayer [
 
-	(self tileAt: 1) addPlayer: aSLPlayer 
+	(self tileAt: 1) addPlayer: aPlayer.
+	aPlayer position: 1
 ]
 
 { #category : 'printing' }
@@ -24,6 +25,12 @@ SLGame >> printOn: aStream [
 SLGame >> tileAt: anIndex [
 
 	^ tiles at: anIndex
+]
+
+{ #category : 'as yet unclassified' }
+SLGame >> tileFor: aPlayer atDistance: aNumber [
+
+	^ self tileAt: (aPlayer position + aNumber)
 ]
 
 { #category : 'accessing' }
