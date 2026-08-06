@@ -88,3 +88,13 @@ SLGameTest >> testTileForAtDistance [
 	game addPlayer: jill.
 	self assert: (game tileFor: jill atDistance: 4) position equals: 5
 ]
+
+{ #category : 'tests' }
+SLGameTest >> testTileOfPlayer [
+
+	| jill game |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	self assert: (game tileOfPlayer: jill) position equals: 1
+]

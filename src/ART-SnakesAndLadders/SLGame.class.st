@@ -44,3 +44,9 @@ SLGame >> tileNumber: aNumber [
 
 	tiles := (1 to: aNumber) collect: [ :i | SLTile new position: i ]
 ]
+
+{ #category : 'as yet unclassified' }
+SLGame >> tileOfPlayer: aPlayer [
+
+	^ self tileAt: aPlayer position
+]
