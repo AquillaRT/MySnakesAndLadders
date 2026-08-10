@@ -15,6 +15,16 @@ SLGame >> addPlayer: aPlayer [
 	aPlayer position: 1
 ]
 
+{ #category : 'accessing' }
+SLGame >> movePlayer: aPlayer distance: anInteger [
+
+	| targetTile |
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
+	targetTile addPlayer: aPlayer.
+	aPlayer position: targetTile position
+]
+
 { #category : 'printing' }
 SLGame >> printOn: aStream [
 
@@ -27,7 +37,7 @@ SLGame >> tileAt: anIndex [
 	^ tiles at: anIndex
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SLGame >> tileFor: aPlayer atDistance: aNumber [
 
 	^ self tileAt: (aPlayer position + aNumber)
@@ -45,7 +55,7 @@ SLGame >> tileNumber: aNumber [
 	tiles := (1 to: aNumber) collect: [ :i | SLTile new position: i ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SLGame >> tileOfPlayer: aPlayer [
 
 	^ self tileAt: aPlayer position

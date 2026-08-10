@@ -1,8 +1,7 @@
 Class {
 	#name : 'SLTile',
-	#superclass : 'Object',
+	#superclass : 'SLAbstractTile',
 	#instVars : [
-		'position',
 		'players'
 	],
 	#category : 'ART-SnakesAndLadders',
@@ -35,18 +34,6 @@ SLTile >> players [
 	^ players
 ]
 
-{ #category : 'accessing' }
-SLTile >> position [
-
-	^ position
-]
-
-{ #category : 'accessing' }
-SLTile >> position: anInteger [
-
-	position := anInteger
-]
-
 { #category : 'printing' }
 SLTile >> printOn: aStream [
 	"protocol: 'printing'"
@@ -55,4 +42,10 @@ SLTile >> printOn: aStream [
 	position printOn: aStream.
 	players do: [ :each | each printOn: aStream ].
 	aStream << $]
+]
+
+{ #category : 'accessing' }
+SLTile >> removePlayer: aPlayer [
+
+	players remove: aPlayer
 ]
