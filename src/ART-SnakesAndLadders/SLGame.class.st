@@ -31,6 +31,27 @@ SLGame >> printOn: aStream [
 	tiles do: [ :aTile | aTile printOn: aStream ]
 ]
 
+{ #category : 'initialization' }
+SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition [
+
+	tiles 
+		at: aSourcePosition 
+		put: (SLLadderTile new
+			 			position: aSourcePosition;
+			 			to: (self tileAt: aTargetPosition))
+]
+
+{ #category : 'initialization' }
+SLGame >> setSnakeFrom: aSourcePosition to: aTargetPosition [
+	"Protocol: configuring"
+
+	tiles 
+		at: aSourcePosition 
+		put: (SLSnakeTile new
+			 			position: aSourcePosition;
+			 			to: (self tileAt: aTargetPosition))
+]
+
 { #category : 'accessing' }
 SLGame >> tileAt: anIndex [
 

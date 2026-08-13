@@ -35,13 +35,20 @@ SLTile >> players [
 ]
 
 { #category : 'printing' }
-SLTile >> printOn: aStream [
+SLTile >> printInsideOn: aStream [
 	"protocol: 'printing'"
 
-	aStream << $[.
+	super printInsideOn: aStream.
+	players do: [ :aPlayer | aPlayer printOn: aStream ]
+]
+
+{ #category : 'printing' }
+SLTile >> printOn: aStream [
+
+	aStream << '['.
 	position printOn: aStream.
-	players do: [ :each | each printOn: aStream ].
-	aStream << $]
+	players do: [ :aPlayer | aPlayer printOn: aStream ].
+	aStream << ']'
 ]
 
 { #category : 'accessing' }

@@ -21,10 +21,16 @@ SLAbstractTile >> position: anInteger [
 ]
 
 { #category : 'printing' }
+SLAbstractTile >> printInsideOn: aStream [
+
+	aStream << position asString
+]
+
+{ #category : 'printing' }
 SLAbstractTile >> printOn: aStream [
 	"protocol: 'printing'"
 
 	aStream << '['.
-	position printOn: aStream.
+	self printInsideOn: aStream.
 	aStream << ']'
 ]

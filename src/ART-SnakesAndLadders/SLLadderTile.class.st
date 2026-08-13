@@ -6,12 +6,11 @@ Class {
 }
 
 { #category : 'printing' }
-SLLadderTile >> printOn: aStream [
-	"protocol: 'printing'"
+SLLadderTile >> printInsideOn: aStream [
 
-	aStream << '['.
-	position printOn: aStream.
-	aStream << '->'.
-	targetTile position printOn: aStream.
-	aStream << ']'
+	aStream
+		<< position asString;
+		<< '->';
+		<< targetTile position asString
+
 ]
