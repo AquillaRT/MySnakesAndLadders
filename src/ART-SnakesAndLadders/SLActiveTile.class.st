@@ -8,6 +8,14 @@ Class {
 	#package : 'ART-SnakesAndLadders'
 }
 
+{ #category : 'player management' }
+SLActiveTile >> acceptPlayer: aPlayer [
+	"protocol: 'player management'"
+
+	super acceptPlayer: aPlayer.
+	targetTile acceptPlayer: aPlayer
+]
+
 { #category : 'accessing' }
 SLActiveTile >> to: aTile [
 	"protocol: 'accessing'

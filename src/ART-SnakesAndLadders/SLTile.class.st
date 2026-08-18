@@ -8,10 +8,18 @@ Class {
 	#package : 'ART-SnakesAndLadders'
 }
 
-{ #category : 'adding' }
-SLTile >> addPlayer: aSLPlayer [ 
+{ #category : 'visiting' }
+SLTile >> acceptPlayer: aPlayer [
+	"protocol: 'player management'"
 
-	players add: aSLPlayer 
+	super acceptPlayer: aPlayer.
+	self addPlayer: aPlayer
+]
+
+{ #category : 'adding' }
+SLTile >> addPlayer: aPlayer [ 
+
+	players add: aPlayer 
 ]
 
 { #category : 'testing' }
@@ -49,6 +57,13 @@ SLTile >> printOn: aStream [
 	position printOn: aStream.
 	players do: [ :aPlayer | aPlayer printOn: aStream ].
 	aStream << ']'
+]
+
+{ #category : 'player management' }
+SLTile >> releasePlayer: aPlayer [
+	"Protocol: player management"
+
+	self removePlayer: aPlayer
 ]
 
 { #category : 'accessing' }

@@ -8,21 +8,21 @@ Class {
 	#package : 'ART-SnakesAndLadders'
 }
 
-{ #category : 'accessing' }
+{ #category : 'initial setup' }
 SLGame >> addPlayer: aPlayer [
 
 	(self tileAt: 1) addPlayer: aPlayer.
 	aPlayer position: 1
 ]
 
-{ #category : 'accessing' }
+{ #category : 'game logic' }
 SLGame >> movePlayer: aPlayer distance: anInteger [
+	"Protocol: game logic"
 
 	| targetTile |
 	targetTile := self tileFor: aPlayer atDistance: anInteger.
-	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
-	targetTile addPlayer: aPlayer.
-	aPlayer position: targetTile position
+	(self tileOfPlayer: aPlayer) releasePlayer: aPlayer.
+	targetTile acceptPlayer: aPlayer
 ]
 
 { #category : 'printing' }
@@ -31,7 +31,7 @@ SLGame >> printOn: aStream [
 	tiles do: [ :aTile | aTile printOn: aStream ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initial setup' }
 SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition [
 
 	tiles 
@@ -41,7 +41,7 @@ SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition [
 			 			to: (self tileAt: aTargetPosition))
 ]
 
-{ #category : 'initialization' }
+{ #category : 'initial setup' }
 SLGame >> setSnakeFrom: aSourcePosition to: aTargetPosition [
 	"Protocol: configuring"
 
