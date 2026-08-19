@@ -15,6 +15,24 @@ SLGameTest >> testCheckingSimpleGame [
 ]
 
 { #category : 'tests' }
+SLGameTest >> testCurrentPlayer [
+
+	| jack game jill |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game
+		addPlayer: jack;
+		addPlayer: jill.
+	game turn: 1.
+	self assert: game currentPlayer equals: jack.
+	game turn: 2.
+	self assert: game currentPlayer equals: jill.
+	game turn: 3.
+	self assert: game currentPlayer equals: jack
+]
+
+{ #category : 'tests' }
 SLGameTest >> testFullGamePrintString [
 
 	| game |

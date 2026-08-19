@@ -2,7 +2,9 @@ Class {
 	#name : 'SLGame',
 	#superclass : 'Object',
 	#instVars : [
-		'tiles'
+		'tiles',
+		'players',
+		'turn'
 	],
 	#category : 'ART-SnakesAndLadders',
 	#package : 'ART-SnakesAndLadders'
@@ -12,7 +14,28 @@ Class {
 SLGame >> addPlayer: aPlayer [
 
 	(self tileAt: 1) addPlayer: aPlayer.
-	aPlayer position: 1
+	aPlayer position: 1.
+	players add: aPlayer 
+]
+
+{ #category : 'as yet unclassified' }
+SLGame >> currentPlayer [
+
+	| rest playerIndex |
+	rest := turn \\ players size.
+	playerIndex := rest isZero
+		               ifTrue: [ players size ]
+		               ifFalse: [ rest ].
+	^ players at: playerIndex
+]
+
+{ #category : 'initialization' }
+SLGame >> initialize [
+	"protocol: 'initialization'"
+
+	super initialize.
+	players := OrderedCollection new.
+	turn := 0
 ]
 
 { #category : 'game logic' }
