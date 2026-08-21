@@ -18,7 +18,14 @@ SLGame >> addPlayer: aPlayer [
 	players add: aPlayer 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
+SLGame >> canMoveToPosition: aNumber [
+	"protocol: 'testing'"
+
+	^ aNumber <= tiles size
+]
+
+{ #category : 'game logic' }
 SLGame >> currentPlayer [
 
 	| rest playerIndex |
@@ -38,6 +45,13 @@ SLGame >> initialize [
 	turn := 0
 ]
 
+{ #category : 'testing' }
+SLGame >> isOver [
+	"protocol: 'testing'"
+
+	^ players anySatisfy: [ :each | each position = tiles size ]
+]
+
 { #category : 'game logic' }
 SLGame >> movePlayer: aPlayer distance: anInteger [
 	"Protocol: game logic"
@@ -46,6 +60,32 @@ SLGame >> movePlayer: aPlayer distance: anInteger [
 	targetTile := self tileFor: aPlayer atDistance: anInteger.
 	(self tileOfPlayer: aPlayer) releasePlayer: aPlayer.
 	targetTile acceptPlayer: aPlayer
+]
+
+{ #category : 'playing' }
+SLGame >> play [
+	"protocol: 'playing'"
+
+	Transcript
+		show: self;
+		cr.
+	[ self isOver ] whileFalse: [ self playOneStepWith: 6 atRandom ]
+]
+
+{ #category : 'playing' }
+SLGame >> playOneStepWith: aNumber [
+	"protocol: 'game' or 'playing'"
+
+	| currentPlayer |
+	turn := turn + 1.
+	currentPlayer := self currentPlayer.
+	Transcript show:
+		currentPlayer printString , ' drew ' , aNumber printString , ': '.
+	(self canMoveToPosition: currentPlayer position + aNumber) ifTrue: [
+		self movePlayer: currentPlayer distance: aNumber ].
+	Transcript
+		show: self;
+		cr
 ]
 
 { #category : 'printing' }

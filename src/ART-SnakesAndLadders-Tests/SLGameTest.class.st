@@ -6,6 +6,16 @@ Class {
 }
 
 { #category : 'tests' }
+SLGameTest >> testCanMoveToPosition [
+
+	| game |
+	game := SLGame new tileNumber: 12.
+	self assert: (game canMoveToPosition: 8).
+	self assert: (game canMoveToPosition: 12).
+	self deny: (game canMoveToPosition: 13)
+]
+
+{ #category : 'tests' }
 SLGameTest >> testCheckingSimpleGame [
 
 	| game |
@@ -47,6 +57,20 @@ SLGameTest >> testFullGamePrintString [
 ]
 
 { #category : 'tests' }
+SLGameTest >> testIsOver [
+	"protocol: 'tests'"
+
+	| jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	game addPlayer: jack.
+	self assert: jack position equals: 1.
+	game movePlayer: jack distance: 11.
+	self assert: jack position equals: 12.
+	self assert: game isOver
+]
+
+{ #category : 'tests' }
 SLGameTest >> testMovePlayerADistance [
 
 	| jill game |
@@ -57,6 +81,117 @@ SLGameTest >> testMovePlayerADistance [
 	self assert: jill position equals: 5.
 	self deny: ((game tileAt: 1) includesPlayer: jill).
 	self assert: ((game tileAt: 5) includesPlayer: jill)
+]
+
+{ #category : 'tests' }
+SLGameTest >> testPlayOneStep [
+	"protocol: 'tests'"
+
+	| jill jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	self assert: jill position equals: 1.
+	game playOneStepWith: 3.
+	self assert: jill position equals: 4.
+	self assert: (game tileAt: 1) players size equals: 1.
+	self assert: ((game tileAt: 4) includesPlayer: jill)
+]
+
+{ #category : 'tests' }
+SLGameTest >> testPlayOneStepOnALadder [
+	"protocol: 'tests'"
+
+	| jill jack game |
+	game := SLGame new
+		        tileNumber: 12;
+		        setLadderFrom: 2 to: 6;
+		        setLadderFrom: 7 to: 9;
+		        setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	"Jillが1を出してマス2（ハシゴの入り口）に着地"
+	game playOneStepWith: 1. "※リファクタリング後のセレクタ"
+	"ハシゴによってマス6へ昇っていることを検証"
+	self assert: jill position equals: 6.
+	self assert: (game tileAt: 1) players size equals: 1.
+	self assert: ((game tileAt: 6) includesPlayer: jill)
+]
+
+{ #category : 'tests' }
+SLGameTest >> testPlayOneStepOnExactFinish [
+	"protocol: 'tests'"
+
+	| jill jack game |
+	game := SLGame new
+		        tileNumber: 12;
+		        setLadderFrom: 2 to: 6;
+		        setLadderFrom: 7 to: 9;
+		        setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	game playOneStepWith: 11.
+	"jill lands on the finish tile!"
+	self assert: jill position equals: 12.
+	self assert: (game tileAt: 1) players size equals: 1.
+	self assert: ((game tileAt: 12) includesPlayer: jill).
+	self assert: game isOver
+]
+
+{ #category : 'tests' }
+SLGameTest >> testPlayOneStepOnInexactFinish [
+	"protocol: 'tests'"
+
+	| jill jack game |
+	game := SLGame new
+		        tileNumber: 12;
+		        setLadderFrom: 2 to: 6;
+		        setLadderFrom: 7 to: 9;
+		        setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	"jill moves"
+	game playOneStepWith: 9.
+	self assert: jill position equals: 10.
+	self assert: ((game tileAt: 10) includesPlayer: jill).
+	"jack moves"
+	game playOneStepWith: 2.
+	"jill tries to move but in fact stays at her place"
+	game playOneStepWith: 5.
+	self assert: jill position equals: 10.
+	self assert: ((game tileAt: 10) includesPlayer: jill).
+	self deny: game isOver
+]
+
+{ #category : 'tests' }
+SLGameTest >> testPlayTwoSteps [
+	"protocol: 'tests'"
+
+	| jill jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	"1ステップ目: Jillが3進む"
+	game playOneStepWith: 3.
+	"2ステップ目: 交代したJackが2進む"
+	game playOneStepWith: 2.
+	"Jillの状態が変わっていない（位置4に留まっている）ことを検証"
+	self assert: jill position equals: 4.
+	self assert: ((game tileAt: 4) includesPlayer: jill).
+	"Jackが正しくタイル3へ移動したかを検証"
+	self assert: (game tileAt: 1) players size equals: 0.
+	self assert: jack position equals: 3.
+	self assert: ((game tileAt: 3) includesPlayer: jack)
 ]
 
 { #category : 'tests' }
